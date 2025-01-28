@@ -29,19 +29,46 @@ def calculate(gradepoints_credits):
         total_credits += credit
     return total_weighted_points / total_credits
 
-credits = {"BEEE": 4, "default": 3}
-total_marks_list = {"Math": 100, "default": 150}
+# Credits for both Chemistry and Physics groups
+credits_chemistry = {
+    "English": 3,
+    "Math": 3,
+    "BEEE": 4,
+    "Chemistry": 3,
+    "PPS": 3
+}
+
+credits_physics = {
+    "Physics": 5,
+    "Edg": 3,
+    "Economics": 3,
+    "Workshops": 2
+}
+
+# Total marks for the respective subjects
+total_marks_list = {
+    "Math": 100,
+    "Edg": 100,
+    "Economics": 100,
+    "Workshops": 50,
+    "Physics": 150
+}
 
 @app.route("/", methods=["GET", "POST"])
 def sgpa_calculator():
     if request.method == "POST":
-        marks = {
-            "Math": int(request.form.get("Math")),
-            "Chemistry": int(request.form.get("Chemistry")),
-            "BEEE": int(request.form.get("BEEE")),
-            "PPS": int(request.form.get("PPS")),
-            "English": int(request.form.get("English")),
-        }
+        group = request.form.get("group")
+        
+        # Choose the correct subjects and credits based on the group
+        if group == "chemistry":
+            credits = credits_chemistry
+        elif group == "physics":
+            credits = credits_physics
+        else:
+            return "Invalid group selected"
+        
+        # Collect marks for the selected group
+        marks = {subject: int(request.form.get(subject)) for subject in credits.keys()}
 
         gradepoints_credits = []
         for subject, obtained in marks.items():
@@ -57,3 +84,4 @@ def sgpa_calculator():
 
 if __name__ == "__main__":
     app.run(debug=True)
+

@@ -1,8 +1,109 @@
-<form method="post">
-    <label>Math:</label><input type="number" name="Math" required><br>
-    <label>Chemistry:</label><input type="number" name="Chemistry" required><br>
-    <label>BEEE:</label><input type="number" name="BEEE" required><br>
-    <label>PPS:</label><input type="number" name="PPS" required><br>
-    <label>English:</label><input type="number" name="English" required><br>
-    <button type="submit">Calculate SGPA</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculate Your SGPA</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+
+  <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-2xl">
+    <h1 class="text-2xl font-bold text-center text-gray-800 mb-4">Calculate Your SGPA!</h1>
+    <p class="text-gray-600 text-center mb-6">Just enter your total marks: internal + external.</p>
+    
+    <!-- Form starts here -->
+<form method="post" class="space-y-4 bg-gray-100 p-6 rounded-lg shadow-lg">
+
+  <!-- Group selection -->
+  <div class="mb-4">
+    <label class="block font-semibold mb-2">Select your group:</label>
+    <label class="flex items-center space-x-2">
+      <input type="radio" id="chemistry" name="group" value="chemistry" class="accent-blue-500" required>
+      <span>Chemistry Group</span>
+    </label>
+    <label class="flex items-center space-x-2">
+      <input type="radio" id="physics" name="group" value="physics" class="accent-blue-500">
+      <span>Physics Group</span>
+    </label>
+  </div>
+
+  <!-- Marks Input -->
+  <div id="subject-inputs" class="space-y-3">
+    <label class="block">
+      <span class="font-medium">Math:</span>
+      <input type="number" name="Math" class="w-full p-2 border rounded" required>
+    </label>
+    <label class="block">
+      <span class="font-medium">PPS:</span>
+      <input type="number" name="PPS" class="w-full p-2 border rounded" required>
+    </label>
+
+    <!-- Chemistry group -->
+    <div id="chemistry-group" class="hidden space-y-3">
+      <label class="block">
+        <span class="font-medium">BEEE:</span>
+        <input type="number" name="BEEE" class="w-full p-2 border rounded">
+      </label>
+      <label class="block">
+        <span class="font-medium">Chemistry:</span>
+        <input type="number" name="Chemistry" class="w-full p-2 border rounded">
+      </label>
+      <label class="block">
+        <span class="font-medium">English:</span>
+        <input type="number" name="English" class="w-full p-2 border rounded">
+      </label>
+    </div>
+
+    <!-- Physics group -->
+    <div id="physics-group" class="hidden space-y-3">
+      <label class="block">
+        <span class="font-medium">Physics:</span>
+        <input type="number" name="Physics" class="w-full p-2 border rounded">
+      </label>
+      <label class="block">
+        <span class="font-medium">Edg:</span>
+        <input type="number" name="Edg" class="w-full p-2 border rounded">
+      </label>
+      <label class="block">
+        <span class="font-medium">Economics:</span>
+        <input type="number" name="Economics" class="w-full p-2 border rounded">
+      </label>
+      <label class="block">
+        <span class="font-medium">Workshops:</span>
+        <input type="number" name="Workshops" class="w-full p-2 border rounded" max="50">
+      </label>
+    </div>
+  </div>
+
+  <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded shadow-lg hover:bg-blue-600 transition">
+    Calculate SGPA
+  </button>
 </form>
+
+<script>
+  // Validate the Workshops input field
+  document.querySelector('input[name="Workshops"]').addEventListener('input', function () {
+    if (this.value > 50) {
+      alert("Value for Workshops cannot exceed 50.");
+      this.value = ""; // Clear the invalid input
+    }
+  });
+
+  // Group selection logic
+  document.querySelectorAll('input[name="group"]').forEach((input) => {
+    input.addEventListener('change', function () {
+      if (this.value == 'chemistry') {
+        document.getElementById('chemistry-group').classList.remove('hidden');
+        document.getElementById('physics-group').classList.add('hidden');
+      } else if (this.value == 'physics') {
+        document.getElementById('chemistry-group').classList.add('hidden');
+        document.getElementById('physics-group').classList.remove('hidden');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
+
